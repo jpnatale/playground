@@ -21,7 +21,7 @@ function callback (error, response, body) {
         	console.log("There was an error: \(error)")
 
         }
-        //console.log(response)
+
 }
 
 request.post(url,data,callback)
