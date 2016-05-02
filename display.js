@@ -1,9 +1,17 @@
 var request = require('request')
+var fs = require('fs')
+var rootPath = __dirname + "/";
+eval(fs.readFileSync(rootPath+'sha3.js')+'');
 
-var url = "https://lighterpack.com/signin"
-var data = {json: {username: "jpnatale", password: "d154f04ff209e6be596bc9f32ec87cf430612f23a8924fe0af4b8dc54fdf1999d8bc59a97851509134092df523df5a929138478be35d5396918a16490760dde7"}}
+var urlSignin = "https://lighterpack.com/signin"
+var urlUpdateLib = "https://lighterpack.com/saveLibrary"
+var hash  = CryptoJS.SHA3("ginger0923jpnatale")
+hash = hash.toString(CryptoJS.enc.Base64);
+console.log(hash)
+var dataSignin = {json: {username: "jpnatale", password: hash}}
+var dataUpdateLib = dataSignin
 
-var newLib = String
+
 
 function callback (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -12,9 +20,19 @@ function callback (error, response, body) {
             var jsonLibrary = JSON.parse(body.library)
             
             //console.log(Object.keys(body))
-            jsonLibrary.categories[0].name = "Bags & Storage & Fun!"
-            newBody = JSON.stringify(jsonLibrary)
-            console.log(newLib)
+            jsonLibrary.categories[0].name = "Bags & Storage"
+
+            dataUpdateLib.json.data = JSON.stringify(jsonLibrary)
+            //console.log(Object.keys(dataUpdateLib.json))
+
+            request.post(urlUpdateLib,dataUpdateLib, function(error, response, body){
+                console.log("Success?? LOL")
+                //console.log(body)
+
+                if (error){
+                    console.log("There was an error: \(error)")
+                }
+            })
 
             //Finds keys in object jsonLibrary
             //console.log(Object.keys(jsonLibrary.categories[0]))
@@ -49,6 +67,6 @@ function callback (error, response, body) {
         }
 }
 
-request.post(url,data,callback)
+request.post(urlSignin,dataSignin,callback)
 
 
