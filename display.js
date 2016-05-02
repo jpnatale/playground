@@ -20,7 +20,7 @@ function callback (error, response, body) {
             var jsonLibrary = JSON.parse(body.library)
             
             //console.log(Object.keys(body))
-            jsonLibrary.categories[0].name = "Bags & Storage"
+            jsonLibrary.categories[0].name = "Bags & Storage2"
 
             dataUpdateLib.json.data = JSON.stringify(jsonLibrary)
             //console.log(Object.keys(dataUpdateLib.json))
